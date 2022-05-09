@@ -9,6 +9,7 @@ import 'package:flutter_login_ui/common/theme_helper.dart';
 import 'forgot_password_page.dart';
 import 'profile_page.dart';
 import 'registration_page.dart';
+import 'find_work.dart';
 import 'widgets/header_widget.dart';
 
 import 'package:http/http.dart' as http;
@@ -145,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ProfilePage()));
+                                                    JobFinder()));
                                       } else {
                                         Fluttertoast.showToast(
                                           msg: "An error occured.",
@@ -185,8 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProfilePage()));
+                                            builder: (context) => JobFinder()));
                                   },
                                 ),
                               ),
