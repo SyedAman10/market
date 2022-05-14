@@ -9,7 +9,7 @@ import 'package:flutter_login_ui/common/theme_helper.dart';
 import 'forgot_password_page.dart';
 import 'profile_page.dart';
 import 'registration_page.dart';
-import 'find_work.dart';
+import './FindWork/find_work.dart';
 import 'widgets/header_widget.dart';
 
 import 'package:http/http.dart' as http;
