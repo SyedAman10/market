@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_ui/DB/authenticate.dart';
 import 'package:flutter_login_ui/common/theme_helper.dart';
 import 'package:flutter_login_ui/pages/widgets/header_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,6 +19,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final _formKey = GlobalKey<FormState>();
   bool checkedValue = false;
   bool checkboxValue = false;
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController1 = TextEditingController();
+  TextEditingController nameController2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +88,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           child: TextFormField(
                             decoration: ThemeHelper().textInputDecoration(
                                 'First Name', 'Enter your first name'),
+                            controller: nameController1,
                           ),
                           decoration: ThemeHelper().inputBoxDecorationShaddow(),
                         ),
@@ -92,6 +99,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           child: TextFormField(
                             decoration: ThemeHelper().textInputDecoration(
                                 'Last Name', 'Enter your last name'),
+                            controller: nameController2,
                           ),
                           decoration: ThemeHelper().inputBoxDecorationShaddow(),
                         ),
@@ -101,6 +109,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             decoration: ThemeHelper().textInputDecoration(
                                 "E-mail address", "Enter your email"),
                             keyboardType: TextInputType.emailAddress,
+                            controller: emailController,
                             validator: (val) {
                               if (!(val!.isEmpty) &&
                                   !RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
@@ -118,6 +127,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             obscureText: true,
                             decoration: ThemeHelper().textInputDecoration(
                                 "Password*", "Enter your password"),
+                            controller: passwordController,
                             validator: (val) {
                               if (val!.isEmpty) {
                                 return "Please enter your password";
@@ -188,12 +198,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 ),
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (context) => ProfilePage()),
-                                    (Route<dynamic> route) => false);
+                                await signup(
+                                    nameController1.text,
+                                    nameController2.text,
+                                    emailController.text,
+                                    passwordController.text);
+                                // Navigator.of(context).pushAndRemoveUntil(
+                                //     MaterialPageRoute(
+                                //         builder: (context) => ProfilePage()),
+                                //     (Route<dynamic> route) => false);
                               }
                             },
                           ),

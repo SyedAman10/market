@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:html';
+// import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -55,12 +55,20 @@ class _LoginPageState extends State<LoginPage> {
     //   }
     // }
 
-    var url = "http://localhost/localconnection/connection.php";
+    var url = "http://localhost/connection/main.php/";
+    var url2 = "http://localhost/connection/get_one_record.php";
 
-    var res = await http.post(Uri.parse(url), body: {
-      "username": username,
-      "password": password,
-    });
+    // var res = await http.post(Uri.parse(url), body: {
+    //   "username": username,
+    //   "password": password,
+    // });
+    // var db = await http.get(Uri.parse(url));
+    // print(db.body);
+
+    var res =
+        await http.get(Uri.parse(url2), headers: {"table": "auth", "uid": "1"});
+
+    print(jsonDecode(res.body));
 
     var data = json.decode(res.body);
     if (data == 'success') {
@@ -128,7 +136,40 @@ class _LoginPageState extends State<LoginPage> {
                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
                                 alignment: Alignment.topRight,
                                 child: GestureDetector(
-                                  onTap: () async {
+                                  onTap: () {},
+                                  child: Text(
+                                    "Forgot your password?",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                decoration:
+                                    ThemeHelper().buttonBoxDecoration(context),
+                                child: ElevatedButton(
+                                  style: ThemeHelper().buttonStyle(),
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                    child: Text(
+                                      'Sign In'.toUpperCase(),
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    //After successful login we will redirect to profile page. Let's create profile page now
+                                    // login(context);
+                                    // Navigator.pushReplacement(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             ProfilePage()));
+
                                     if (username.value.toString() == "" ||
                                         password.value.toString() == "") {
                                       Fluttertoast.showToast(
@@ -154,39 +195,6 @@ class _LoginPageState extends State<LoginPage> {
                                         );
                                       }
                                     }
-                                  },
-                                  child: Text(
-                                    "Forgot your password?",
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                decoration:
-                                    ThemeHelper().buttonBoxDecoration(context),
-                                child: ElevatedButton(
-                                  style: ThemeHelper().buttonStyle(),
-                                  child: Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(40, 10, 40, 10),
-                                    child: Text(
-                                      'Sign In'.toUpperCase(),
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    //After successful login we will redirect to profile page. Let's create profile page now
-                                    // login(context);
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProfilePage()));
                                   },
                                 ),
                               ),
